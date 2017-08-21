@@ -1,7 +1,3 @@
-<!-- TODO:  Install packages -->
-* react-bootstrap
-* font-awesome
-
 # User stories
 
 * can create profile - implement later
@@ -37,7 +33,7 @@
   - render a form
   - check for valid input
   - submit and cancel buttons
-  
+
 * DisplayContact:
   - stateless
   - render or return a contact
