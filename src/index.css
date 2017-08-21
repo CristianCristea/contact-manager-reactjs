@@ -148,7 +148,6 @@ input[type=search]:focus {
 }
 .add-contact-form {
   z-index: 100;
-  display: none;
 }
 .add-contact-form h1 {
   margin-bottom: 5rem;
