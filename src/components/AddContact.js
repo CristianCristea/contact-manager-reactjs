@@ -1,50 +1,56 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Col, FormGroup, Button } from "react-bootstrap";
+import { Col, FormGroup } from "react-bootstrap";
 import FormInput from "./FormInput";
+import DefaultButton from "./DefaultButton";
 
-export default function AddContact() {
+export default function AddContact({ saveSubmit, cancelSubmit }) {
   return (
     <aside className="add-contact-form container-form">
       <h1 className="text-center">Create Contact</h1>
-      <form className="form-horizontal">
+      <form
+        className="form-horizontal"
+        onSubmit={saveSubmit}
+        onReset={cancelSubmit}
+      >
         <FormInput
-          labelName="Name"
-          idName="name"
-          typeName="text"
-          requiredBool="required"
+          label="Name"
+          id="name"
+          type="text"
+          required={true}
           minLength={3}
         />
 
         <FormInput
-          labelName="Address"
-          idName="address"
-          typeName="text"
-          requiredBool="required"
+          label="Address"
+          id="address"
+          type="text"
+          required={true}
           minLength={10}
         />
 
         <FormInput
-          labelName="Email"
-          idName="email"
-          typeName="email"
-          requiredBool="required"
+          label="Email"
+          id="email"
+          type="email"
+          required={true}
           minLength={6}
         />
 
         <FormGroup className="mt-small">
           <Col sm={4} smOffset={3}>
-            <Button type="submit" bsStyle="default" className="btn-block">
-              Submit
-            </Button>
+            <DefaultButton type="submit" name="Submit" />
           </Col>
           <Col sm={4}>
-            <Button type="reset" bsStyle="default" className="btn-block">
-              Cancel
-            </Button>
+            <DefaultButton type="reset" name="Cancel" />
           </Col>
         </FormGroup>
       </form>
     </aside>
   );
 }
+
+AddContact.propTypes = {
+  saveSubmit: PropTypes.func.isRequired,
+  cancelSubmit: PropTypes.func.isRequired
+};
