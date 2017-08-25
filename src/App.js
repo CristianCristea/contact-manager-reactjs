@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
+import Contacts from "./components/Contacts";
 import AddContact from "./containers/AddContact";
+import { Grid, Row } from "react-bootstrap";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addContact: false,
+      showContactForm: false,
       editContact: false,
       contacts: []
     };
@@ -27,16 +29,25 @@ class App extends Component {
     const allContacts = this.state.contacts;
     allContacts.push(contact);
     this.setState({ contacts: allContacts });
+    this.hideAddContactForm();
+  }
+
+  filterContact(list, contactId) {}
+  editContact(contact) {
+    // get the contact id
+    // filter contact
+    // display contact form with pre-populated fields
+    // update the state
   }
 
   deleteContact(contact) {}
 
   showAddContactForm() {
-    this.setState({ addContact: true });
+    this.setState({ showContactForm: true });
   }
 
   hideAddContactForm() {
-    this.setState({ addContact: false });
+    this.setState({ showContactForm: false });
   }
 
   render() {
@@ -45,12 +56,17 @@ class App extends Component {
       <div>
         <Header title="Contact Manager" />
         <NavBar clickHandler={this.showAddContactForm} />
-        {this.state.addContact
-          ? <AddContact
+
+        {/* toggle between AddContact form and Contacts List  */}
+        {!this.state.showContactForm
+          ? <Contacts
+              contacts={this.state.contacts}
+              editContact={() => this.editContact(contact)}
+            />
+          : <AddContact
               cancelHandler={this.hideAddContactForm}
               onSave={this.handleOnSave}
-            />
-          : null}
+            />}
       </div>
     );
   }
@@ -58,4 +74,4 @@ class App extends Component {
 
 export default App;
 
-// TODO: render single contact, render contact list, implement edit, store to local storage, implement search
+// TODO: implement edit, store to local storage, implement search
