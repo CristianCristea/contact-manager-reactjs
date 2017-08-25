@@ -53,13 +53,21 @@ export default class AddContact extends Component {
 
   // reset form after submit
   resetForm() {
-    document.getElementById("addContactForm").reset();
+    const initialContact = {
+      id: "",
+      name: "",
+      address: "",
+      email: ""
+    };
+    this.setState({
+      contact: initialContact
+    });
   }
 
   // reset form and send the contact object to the App component
   handleClick(contact) {
-    this.resetForm();
     this.props.onSave(contact);
+    this.resetForm();
   }
 
   render() {
