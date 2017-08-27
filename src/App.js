@@ -2,20 +2,20 @@ import React, { Component } from "react";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import Contacts from "./components/Contacts";
-import AddContact from "./containers/AddContact";
-import { Grid, Row } from "react-bootstrap";
+import CreateContact from "./containers/CreateContact";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showContactForm: false,
-      editContact: false,
-      contacts: []
+      editContactForm: false,
+      contacts: [],
+      currentContact: {}
     };
 
-    this.showAddContactForm = this.showAddContactForm.bind(this);
-    this.hideAddContactForm = this.hideAddContactForm.bind(this);
+    this.showCreateContactForm = this.showCreateContactForm.bind(this);
+    this.hideCreateContactForm = this.hideCreateContactForm.bind(this);
     this.handleOnSave = this.handleOnSave.bind(this);
   }
 
@@ -24,47 +24,104 @@ class App extends Component {
   }
 
   addContact(contact) {
-    // add the contact to the existing contacts
-    // update the state
     const allContacts = this.state.contacts;
-    allContacts.push(contact);
+    const { currentContact } = this.state;
+
+    // if edit - replace the old Contact with the new contact
+    if (this.state.editContactForm) {
+      const contactToEdit = this.filterContact(
+        allContacts,
+        Number(currentContact.id)
+      );
+      allContacts.splice(allContacts.indexOf(contactToEdit), 1, contact);
+    } else {
+      // if it is a new contact just add it
+      allContacts.push(contact);
+    }
     this.setState({ contacts: allContacts });
-    this.hideAddContactForm();
+    this.hideCreateContactForm();
   }
 
-  filterContact(list, contactId) {}
-  editContact(contact) {
+  // filter object(contact) from an array of objects(contacts)
+  filterContact(list, contactId) {
+    return list.filter(contact => contact.id === contactId)[0];
+  }
+
+  editContact(e) {
     // get the contact id
+    const contactId = e.target
+      .closest(".contact-block")
+      .getAttribute("data-id");
     // filter contact
-    // display contact form with pre-populated fields
-    // update the state
+    const currentContact = this.filterContact(
+      this.state.contacts,
+      Number(contactId)
+    );
+    this.setState({
+      currentContact: currentContact,
+      editContactForm: true
+    });
+    // display CreateContact form
+    this.showCreateContactForm();
   }
 
-  deleteContact(contact) {}
+  deleteContact(e) {
+    // get the contact id
+    const contactId = e.target
+      .closest(".contact-block")
+      .getAttribute("data-id");
+    // filter contact
+    const contacts = this.state.contacts;
+    contacts.splice(
+      contacts.indexOf(this.filterContact(contacts, Number(contactId))),
+      1
+    );
 
-  showAddContactForm() {
-    this.setState({ showContactForm: true });
+    this.setState({ contacts: contacts });
+
+    this.hideCreateContactForm();
   }
 
-  hideAddContactForm() {
-    this.setState({ showContactForm: false });
+  showCreateContactForm() {
+    this.setState({
+      showContactForm: true
+    });
+  }
+
+  hideCreateContactForm() {
+    this.setState({
+      showContactForm: false,
+      editContactForm: false
+    });
   }
 
   render() {
-    console.log(this.state);
+    const initialContact = {
+      id: "",
+      name: "",
+      address: "",
+      email: ""
+    };
+
     return (
       <div>
         <Header title="Contact Manager" />
-        <NavBar clickHandler={this.showAddContactForm} />
+        <NavBar clickHandler={this.showCreateContactForm} />
 
-        {/* toggle between AddContact form and Contacts List  */}
+        {/* toggle between CreateContact form and Contacts List  */}
         {!this.state.showContactForm
           ? <Contacts
               contacts={this.state.contacts}
-              editContact={() => this.editContact(contact)}
+              editContact={e => this.editContact(e)}
+              deleteContact={e => this.deleteContact(e)}
             />
-          : <AddContact
-              cancelHandler={this.hideAddContactForm}
+          : <CreateContact
+              currentContact={
+                this.state.editContactForm
+                  ? this.state.currentContact
+                  : initialContact
+              }
+              cancelHandler={this.hideCreateContactForm}
               onSave={this.handleOnSave}
             />}
       </div>

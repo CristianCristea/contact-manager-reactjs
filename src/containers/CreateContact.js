@@ -8,18 +8,12 @@ import {
   Button
 } from "react-bootstrap";
 
-export default class AddContact extends Component {
+export default class CreateContact extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      contact: {
-        id: "",
-        name: "",
-        address: "",
-        email: ""
-      }
-    };
+    const { currentContact } = props;
+    this.state = { contact: currentContact };
 
     this.handleClick = this.handleClick.bind(this);
   }
@@ -161,7 +155,8 @@ export default class AddContact extends Component {
   }
 }
 
-AddContact.propTypes = {
+CreateContact.propTypes = {
   onSave: PropTypes.func.isRequired,
-  cancelHandler: PropTypes.func.isRequired
+  cancelHandler: PropTypes.func.isRequired,
+  currentContact: PropTypes.object.isRequired
 };

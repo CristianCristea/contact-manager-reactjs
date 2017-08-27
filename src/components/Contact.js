@@ -2,9 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Col } from "react-bootstrap";
 
-export default function Contact({ name, address, email, clickHandler }) {
+export default function Contact({
+  id,
+  name,
+  address,
+  email,
+  onEdit,
+  onDelete
+}) {
   return (
-    <Col xs={11} sm={4} md={3} className="contact-block">
+    <Col xs={11} sm={4} md={3} className="contact-block" data-id={id}>
       <h3 className="name">
         {name}
       </h3>
@@ -17,13 +24,15 @@ export default function Contact({ name, address, email, clickHandler }) {
         {address}
       </p>
       <div className="contact-buttons mt-small">
-        <button
-          className="edit btn btn-default text-center"
-          onClick={clickHandler}
-        >
+        <button className="edit btn btn-default text-center" onClick={onEdit}>
           Edit
         </button>
-        <button className="delete btn btn-default text-center">Delete</button>
+        <button
+          className="delete btn btn-default text-center"
+          onClick={onDelete}
+        >
+          Delete
+        </button>
       </div>
     </Col>
   );

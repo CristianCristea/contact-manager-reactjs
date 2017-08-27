@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Contact from "./Contact";
 import { Grid, Row } from "react-bootstrap";
 
-export default function Contacts({ contacts, editContact }) {
+export default function Contacts({ contacts, editContact, deleteContact }) {
   return (
     <Grid>
       <Row>
@@ -11,7 +11,11 @@ export default function Contacts({ contacts, editContact }) {
           {contacts.map(contact => {
             return (
               <li key={contact.id}>
-                <Contact clickHandler={editContact} {...contact} />
+                <Contact
+                  onEdit={editContact}
+                  onDelete={deleteContact}
+                  {...contact}
+                />
               </li>
             );
           })}
