@@ -19,8 +19,19 @@ class App extends Component {
     this.handleOnSave = this.handleOnSave.bind(this);
   }
 
+  componentDidMount() {
+    // get contacts from localStorage
+    const contacts = localStorage.getItem("contacts");
+    this.setState({ contacts: JSON.parse(contacts) });
+  }
+
   handleOnSave(contact) {
     this.addContact(contact);
+  }
+
+  saveContacts() {
+    // save contacts to localStorage
+    localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
   }
 
   addContact(contact) {
@@ -40,6 +51,7 @@ class App extends Component {
     }
     this.setState({ contacts: allContacts });
     this.hideCreateContactForm();
+    this.saveContacts();
   }
 
   // filter object(contact) from an array of objects(contacts)
@@ -78,8 +90,9 @@ class App extends Component {
     );
 
     this.setState({ contacts: contacts });
-
     this.hideCreateContactForm();
+    // update localStorage
+    localStorage.setItem("contacts", JSON.stringify(contacts));
   }
 
   showCreateContactForm() {
@@ -109,21 +122,26 @@ class App extends Component {
         <NavBar clickHandler={this.showCreateContactForm} />
 
         {/* toggle between CreateContact form and Contacts List  */}
-        {!this.state.showContactForm
-          ? <Contacts
-              contacts={this.state.contacts}
-              editContact={e => this.editContact(e)}
-              deleteContact={e => this.deleteContact(e)}
-            />
-          : <CreateContact
-              currentContact={
-                this.state.editContactForm
-                  ? this.state.currentContact
-                  : initialContact
-              }
-              cancelHandler={this.hideCreateContactForm}
-              onSave={this.handleOnSave}
-            />}
+        {!this.state.showContactForm ? (
+          <Contacts
+            contacts={this.state.contacts}
+            editContact={e => this.editContact(e)}
+            deleteContact={e => this.deleteContact(e)}
+          />
+        ) : (
+          <CreateContact
+            currentContact={
+              this.state.editContactForm ? (
+                this.state.currentContact
+              ) : (
+                initialContact
+              )
+            }
+            cancelHandler={this.hideCreateContactForm}
+            onSave={this.handleOnSave}
+            edit={this.state.editContactForm}
+          />
+        )}
       </div>
     );
   }

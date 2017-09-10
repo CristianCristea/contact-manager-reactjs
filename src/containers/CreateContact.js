@@ -15,7 +15,7 @@ export default class CreateContact extends Component {
     const { currentContact } = props;
     this.state = { contact: currentContact };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleTextChange(e) {
@@ -59,7 +59,7 @@ export default class CreateContact extends Component {
   }
 
   // reset form and send the contact object to the App component
-  handleClick(contact) {
+  handleSubmit(contact) {
     this.props.onSave(contact);
     this.resetForm();
   }
@@ -71,7 +71,9 @@ export default class CreateContact extends Component {
 
     return (
       <aside className="add-contact-form container-form">
-        <h1 className="text-center">Create Contact</h1>
+        <h1 className="text-center">
+          {this.props.edit ? "Edit Contact" : "Create Contact"}
+        </h1>
         <form
           className="form-horizontal"
           id="addContactForm"
@@ -85,7 +87,7 @@ export default class CreateContact extends Component {
               <FormControl
                 type="text"
                 name="name"
-                value={this.state.contact.name}
+                value={contact.name}
                 placeholder="Name"
                 id="name"
                 required
@@ -104,7 +106,7 @@ export default class CreateContact extends Component {
               <FormControl
                 type="text"
                 name="address"
-                value={this.state.contact.address}
+                value={contact.address}
                 placeholder="Address"
                 id="address"
                 required
@@ -123,7 +125,7 @@ export default class CreateContact extends Component {
               <FormControl
                 type="email"
                 name="email"
-                value={this.state.contact.email}
+                value={contact.email}
                 placeholder="Email"
                 id="email"
                 required
@@ -138,13 +140,14 @@ export default class CreateContact extends Component {
             <Col sm={4} smOffset={3}>
               <Button
                 disabled={!validContact}
-                onClick={validContact ? () => this.handleClick(contact) : null}
+                className="btn-block"
+                onClick={validContact ? () => this.handleSubmit(contact) : null}
               >
                 Submit
               </Button>
             </Col>
             <Col sm={4}>
-              <Button type="reset" name="Cancel">
+              <Button type="reset" className="btn-block" name="Cancel">
                 Cancel
               </Button>
             </Col>
