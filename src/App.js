@@ -11,12 +11,14 @@ class App extends Component {
       showContactForm: false,
       editContactForm: false,
       contacts: [],
-      currentContact: {}
+      currentContact: {},
+      searchValue: ""
     };
 
     this.showCreateContactForm = this.showCreateContactForm.bind(this);
     this.hideCreateContactForm = this.hideCreateContactForm.bind(this);
     this.handleOnSave = this.handleOnSave.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -108,6 +110,16 @@ class App extends Component {
     });
   }
 
+  filterContacts(nameValue, contacts) {
+    return contacts.filter(contact =>
+      contact["name"].toLowerCase().startsWith(nameValue.toLowerCase())
+    );
+  }
+
+  handleSearch(searchValue) {
+    this.setState({ searchValue: searchValue });
+  }
+
   render() {
     const initialContact = {
       id: "",
@@ -116,15 +128,26 @@ class App extends Component {
       email: ""
     };
 
+    const { contacts, searchValue } = this.state;
+
     return (
       <div>
         <Header title="Contact Manager" />
-        <NavBar clickHandler={this.showCreateContactForm} />
+        <NavBar
+          clickHandler={this.showCreateContactForm}
+          handleSearch={this.handleSearch}
+        />
 
         {/* toggle between CreateContact form and Contacts List  */}
         {!this.state.showContactForm ? (
           <Contacts
-            contacts={this.state.contacts}
+            contacts={
+              searchValue ? (
+                this.filterContacts(searchValue, contacts)
+              ) : (
+                contacts
+              )
+            }
             editContact={e => this.editContact(e)}
             deleteContact={e => this.deleteContact(e)}
           />

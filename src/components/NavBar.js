@@ -3,6 +3,17 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Jumbotron, Button } from "react-bootstrap";
 
 export default class NavBar extends Component {
+  constructor(props) {
+    super();
+    this.state = { searchValue: "" };
+  }
+
+  onSearch(e) {
+    this.setState({ searchValue: e.target.value }, () =>
+      this.props.handleSearch(this.state.searchValue)
+    );
+  }
+
   render() {
     return (
       <Grid>
@@ -17,8 +28,9 @@ export default class NavBar extends Component {
               <input
                 placeholder="Search"
                 name="search_contact"
+                value={this.state.searchValue}
                 type="search"
-                required={null}
+                onChange={e => this.onSearch(e)}
               />
             </Col>
           </Row>
