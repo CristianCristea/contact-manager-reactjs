@@ -133,39 +133,41 @@ class App extends Component {
 
     return (
       <div>
-        <Header title="Contact Manager" />
-        <NavBar
-          clickHandler={this.showCreateContactForm}
-          handleSearch={this.handleSearch}
-        />
+        <div className="content">
+          <Header title="Contact Manager" />
+          <NavBar
+            clickHandler={this.showCreateContactForm}
+            handleSearch={this.handleSearch}
+          />
 
-        {/* toggle between CreateContact form and Contacts List  */}
-        {!this.state.showContactForm ? (
-          <Contacts
-            displayContacts={
-              searchValue ? (
-                this.filterContacts(searchValue, contacts)
-              ) : (
-                contacts
-              )
-            }
-            editContact={e => this.editContact(e)}
-            deleteContact={e => this.deleteContact(e)}
-          />
-        ) : (
-          <CreateContact
-            currentContact={
-              this.state.editContactForm ? (
-                this.state.currentContact
-              ) : (
-                initialContact
-              )
-            }
-            cancelHandler={this.hideCreateContactForm}
-            onSave={this.handleOnSave}
-            edit={this.state.editContactForm}
-          />
-        )}
+          {/* toggle between CreateContact form and Contacts List  */}
+          {!this.state.showContactForm ? (
+            <Contacts
+              displayContacts={
+                searchValue ? (
+                  this.filterContacts(searchValue, contacts)
+                ) : (
+                  contacts
+                )
+              }
+              editContact={e => this.editContact(e)}
+              deleteContact={e => this.deleteContact(e)}
+            />
+          ) : (
+            <CreateContact
+              currentContact={
+                this.state.editContactForm ? (
+                  this.state.currentContact
+                ) : (
+                  initialContact
+                )
+              }
+              cancelHandler={this.hideCreateContactForm}
+              onSave={this.handleOnSave}
+              edit={this.state.editContactForm}
+            />
+          )}
+        </div>
         <Footer />
       </div>
     );

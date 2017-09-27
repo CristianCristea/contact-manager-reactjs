@@ -42,12 +42,6 @@ footer a:hover {
   color: tomato;
 }
 
-@media screen and (min-width: 768px) {
-  footer {
-    margin-top: 5rem;
-  }
-}
-
 .contact-block {
   border-bottom: 1px solid tomato;
   padding-bottom: 2rem;
@@ -183,4 +177,11 @@ ul {
 .no-contacts p {
   font-size: 32px;
   color: #ccc;
+}
+
+.content {
+  min-height: calc(100vh - 70px);
+}
+.footer {
+  height: 50px;
 }
