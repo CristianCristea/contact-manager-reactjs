@@ -24,7 +24,9 @@ class App extends Component {
   componentDidMount() {
     // get contacts from localStorage
     const contacts = localStorage.getItem("contacts");
-    this.setState({ contacts: JSON.parse(contacts) });
+    if (localStorage.length > 0) {
+      this.setState({ contacts: JSON.parse(contacts) });
+    }
   }
 
   handleOnSave(contact) {
@@ -37,21 +39,20 @@ class App extends Component {
   }
 
   addContact(contact) {
-    const allContacts = this.state.contacts;
-    const { currentContact } = this.state;
+    const { contacts, currentContact } = this.state;
 
     // if edit - replace the old Contact with the new contact
     if (this.state.editContactForm) {
       const contactToEdit = this.filterContact(
-        allContacts,
+        contacts,
         Number(currentContact.id)
       );
-      allContacts.splice(allContacts.indexOf(contactToEdit), 1, contact);
+      contacts.splice(contacts.indexOf(contactToEdit), 1, contact);
     } else {
       // if it is a new contact just add it
-      allContacts.push(contact);
+      contacts.push(contact);
     }
-    this.setState({ contacts: allContacts });
+    this.setState({ contacts: contacts });
     this.hideCreateContactForm();
     this.saveContacts();
   }
@@ -127,7 +128,6 @@ class App extends Component {
       address: "",
       email: ""
     };
-
     const { contacts, searchValue } = this.state;
 
     return (
@@ -141,7 +141,7 @@ class App extends Component {
         {/* toggle between CreateContact form and Contacts List  */}
         {!this.state.showContactForm ? (
           <Contacts
-            contacts={
+            displayContacts={
               searchValue ? (
                 this.filterContacts(searchValue, contacts)
               ) : (
