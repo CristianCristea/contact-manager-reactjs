@@ -159,3 +159,21 @@ input[type="search"]:focus {
 ul {
   list-style: none;
 }
+.no-contacts {
+  text-align: center;
+  background: #eeeeee;
+  border: 1px solid #ccc;
+  height: 60vh;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+}
+
+.no-contacts div {
+  align-self: center;
+}
+
+.no-contacts p {
+  font-size: 32px;
+  color: #ccc;
+}

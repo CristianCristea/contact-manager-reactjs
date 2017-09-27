@@ -1,14 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+import NoContactsFound from "./NoContactsFound";
 import Contact from "./Contact";
 import { Grid, Row } from "react-bootstrap";
 
-export default function Contacts({ contacts, editContact, deleteContact }) {
-  return (
+export default function Contacts({
+  displayContacts,
+  editContact,
+  deleteContact
+}) {
+  return displayContacts.length > 0 ? (
     <Grid>
       <Row>
         <ul id="contacts">
-          {contacts.map(contact => {
+          {displayContacts.map(contact => {
             return (
               <li key={contact.id}>
                 <Contact
@@ -22,9 +27,11 @@ export default function Contacts({ contacts, editContact, deleteContact }) {
         </ul>
       </Row>
     </Grid>
+  ) : (
+    <NoContactsFound />
   );
 }
 
 Contacts.propTypes = {
-  contacts: PropTypes.array.isRequired
+  displayContacts: PropTypes.array.isRequired
 };
