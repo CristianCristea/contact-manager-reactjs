@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import Contacts from "./components/Contacts";
 import CreateContact from "./containers/CreateContact";
+import Footer from "./components/Footer";
 
 class App extends Component {
   constructor(props) {
@@ -165,6 +166,7 @@ class App extends Component {
             edit={this.state.editContactForm}
           />
         )}
+        <Footer />
       </div>
     );
   }
